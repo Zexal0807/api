@@ -21,7 +21,7 @@ class EmailController{
       ->execute();
     if(sizeof($ret) == 1){
       $return = $DB->select("*")
-        ->from("block")
+        ->from("emailblock")
         ->where("id", "=", $id)
         ->execute();
     }
