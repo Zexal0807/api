@@ -1,5 +1,5 @@
 <?php
-class EmailController extends ZController{
+class EmailController{
 
 
   public function getEmailStatus($token, $id){
