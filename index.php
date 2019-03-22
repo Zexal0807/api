@@ -24,24 +24,16 @@ ZRoute::get("/email/<code>/email/<id>", function ($data){
   echo json_encode(EmailController::getEmailStatus($data['code'], $data['id']));
 });
 
-ZRoute::post("/test", function($data){
-  $ch = curl_init();
-  // define options
-  $optArray = array(
-    CURLOPT_POST => 1,
-    CURLOPT_HEADER => 0,
-    CURLOPT_URL => 'http://www.serverserver.com',
-    CURLOPT_FRESH_CONNECT => 1,
-    CURLOPT_RETURNTRANSFER => 1,
-    CURLOPT_FORBID_REUSE => 1,
-    CURLOPT_TIMEOUT => 4,
-    CURLOPT_POSTFIELDS => http_build_query($post)
+ZRoute::post("/send/<code>", function($data){
+  //check the code
+  EmailController::send(
+    $data['code'],
+    isset($data['to']) ? $data['to'] : "",
+    isset($data['subject']) ? $data['subject'] : "",
+    isset($data['message']) ? $data['message'] : "",
+    isset($data['header']) ? $data['header'] : "",
+    isset($data['parameter']) ? $data['parameter'] : ""
   );
-  // apply those options
-  curl_setopt_array($ch, $optArray);
-  // execute request and get response
-  $result = curl_exec($ch);
-  d_var_dump($result);
 });
 
 ZRoute::listen();
