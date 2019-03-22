@@ -13,6 +13,7 @@ class EmailController{
         ->from("emailblock")
         ->execute();
       $id = intval($id[0]['id']);
+      $header = EmailController::prepareHeader($header);
       foreach($to as $t){
         error_reporting(0);
         $s = mail($t, $subject, $message, $header, $parameter);
@@ -29,6 +30,13 @@ class EmailController{
       $to = explode(",", $to);
     }
     return $to;
+  }
+  private static function prepareHeader($header){
+    if(!is_array($header)){
+      $header = explode("\r\n", $header);
+    }
+    $header['Content-type'] = "text/html; charset=iso-8859-1";
+    return implode("\r\n", $header);
   }
   public static function getBlockStatus($token, $id){
     $return = [];
