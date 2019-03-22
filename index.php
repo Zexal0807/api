@@ -14,14 +14,13 @@ ZRoute::get("/home", function (){
 }, "home");
 
 ZRoute::get("/email/<code>/block/<id>", function ($data){
-  d_var_dump($data);
   header('Content-Type: application/json');
-  echo json_encode(EmailController::getBlockStatus($data['<code>'], $data['<id>']));
+  echo json_encode(EmailController::getBlockStatus($data['code'], $data['id']));
 });
 
 ZRoute::get("/email/<code>/email/<id>", function ($data){
   header('Content-Type: application/json');
-  echo json_encode(EmailController::getEmailStatus($data['<code>'], $data['<id>']));
+  echo json_encode(EmailController::getEmailStatus($data['code'], $data['id']));
 });
 
 ZRoute::post("/test", function($data){
