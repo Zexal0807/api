@@ -38,6 +38,10 @@ class EmailController{
     $header['Content-type'] = "text/html; charset=iso-8859-1";
     return implode("\r\n", $header);
   }
+  private static function isHTML($string){
+    return $string != strip_tags($string);
+  }
+
   public static function getBlockStatus($token, $id){
     $return = [];
     $l = LoginController::checkToken($token);
