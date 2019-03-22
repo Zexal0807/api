@@ -2,7 +2,6 @@
 class EmailController{
 
   public static function send($to, $subject, $message, $header = null, $parameter = null){
-    d_var_dump(func_get_args());
     $to = explode(",", $to);
     $DB = new Database();
     $DB->insert("emailblock", "idUtente", "subject", "message", "header", "parameter")
@@ -11,10 +10,15 @@ class EmailController{
     $id = $DB->select("MAX(id) AS id")
       ->from("emailblock")
       ->execute();
-    $id = $id[0]['id'];
+    $id = intval($id[0]['id']);
+    foreach($to as $t){
+      error_reporting(0);
+      $s = mail($t, $subject, $message, $header, $parameter);
+      error_reporting(E_ALL);
+      $DB->insert("email", "idEmailBlock", "reciver", "invio", "status")
+        ->value($id, $t, ($s ? date("Y-m-d H:i:s") : null), ($s ? "Success" : error_get_last()['message']))
         ->execute();
-      $id = $id[0]['id'];
-
+    }
   }
 
   public static function getBlockStatus($token, $id){
