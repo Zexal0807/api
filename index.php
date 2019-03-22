@@ -4,6 +4,7 @@ require_once 'Zexarel/loader.php';
 require_once 'classes/Database.php';
 
 require_once 'classes/EmailController.php';
+require_once 'classes/LoginController.php';
 
 ZRoute::get("/", function (){
   redirect("home");
