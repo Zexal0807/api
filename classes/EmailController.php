@@ -23,15 +23,11 @@ class EmailController{
 
   public static function getBlockStatus($token, $id){
     $return = [];
-    $DB = new Database();
-    $ret = $DB->select("id")
-      ->from("utenti")
-      ->where("emailToken", "=", $token)
-      ->execute();
-    if(sizeof($ret) == 1){
+    $l = LoginController::checkToken($token);
+    if($l != false){
       $return = $DB->select("*")
         ->from("emailblock")
-        ->where("id", "=", $id)
+        ->where("id", "=", $l)
         ->execute();
     }
     return $return;
@@ -39,12 +35,8 @@ class EmailController{
 
   public static function getEmailStatus($token, $id){
     $return = [];
-    $DB = new Database();
-    $ret = $DB->select("id")
-      ->from("utenti")
-      ->where("emailToken", "=", $token)
-      ->execute();
-    if(sizeof($ret) == 1){
+    $l = LoginController::checkToken($token);
+    if($l != false){
       $return = EmailController::getEmail($id);
     }
     return $return;
