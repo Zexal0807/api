@@ -4,7 +4,7 @@ class EmailController{
   public static function send($token, $to, $subject, $message, $header = null, $parameter = null){
     $l = LoginController::checkToken($token);
     if($l != false){
-      $to = explode(",", $to);
+      $to = EmailController::prepareTo($to);
       $DB = new Database();
       $DB->insert("emailblock", "idUtente", "subject", "message", "header", "parameter")
         ->value(1, $subject, $message, $header, $parameter)
@@ -24,6 +24,12 @@ class EmailController{
     }
   }
 
+  private static function prepareTo($to){
+    if(!is_array($to)){
+      $to = explode(",", $to);
+    }
+    return $to;
+  }
   public static function getBlockStatus($token, $id){
     $return = [];
     $l = LoginController::checkToken($token);
