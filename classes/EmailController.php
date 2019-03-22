@@ -1,14 +1,17 @@
 <?php
 class EmailController{
 
-
-  public static function send($to, $obj, $body, $header = null, $extra = null){
-    $to = explode(":", $to);
-
+  public static function send($to, $subject, $message, $header = null, $parameter = null){
+    d_var_dump(func_get_args());
+    $to = explode(",", $to);
     $DB = new Database();
-    $DB->insert("block", "obj", "body", "header", "extra")
-      ->value($obj, $body, $header, $extra)
+    $DB->insert("emailblock", "idUtente", "subject", "message", "header", "parameter")
+      ->value(1, $subject, $message, $header, $parameter)
       ->execute();
+      $id = $DB->select("MAX(id) AS is")
+        ->from("emailblock")
+        ->execute();
+      $id = $id[0]['id'];
 
   }
 
