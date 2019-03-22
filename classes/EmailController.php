@@ -8,8 +8,10 @@ class EmailController{
     $DB->insert("emailblock", "idUtente", "subject", "message", "header", "parameter")
       ->value(1, $subject, $message, $header, $parameter)
       ->execute();
-      $id = $DB->select("MAX(id) AS is")
-        ->from("emailblock")
+    $id = $DB->select("MAX(id) AS id")
+      ->from("emailblock")
+      ->execute();
+    $id = $id[0]['id'];
         ->execute();
       $id = $id[0]['id'];
 
