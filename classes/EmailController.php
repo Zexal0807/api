@@ -1,23 +1,26 @@
 <?php
 class EmailController{
 
-  public static function send($to, $subject, $message, $header = null, $parameter = null){
-    $to = explode(",", $to);
-    $DB = new Database();
-    $DB->insert("emailblock", "idUtente", "subject", "message", "header", "parameter")
-      ->value(1, $subject, $message, $header, $parameter)
-      ->execute();
-    $id = $DB->select("MAX(id) AS id")
-      ->from("emailblock")
-      ->execute();
-    $id = intval($id[0]['id']);
-    foreach($to as $t){
-      error_reporting(0);
-      $s = mail($t, $subject, $message, $header, $parameter);
-      error_reporting(E_ALL);
-      $DB->insert("email", "idEmailBlock", "reciver", "invio", "status")
-        ->value($id, $t, ($s ? date("Y-m-d H:i:s") : null), ($s ? "Success" : error_get_last()['message']))
+  public static function send($token, $to, $subject, $message, $header = null, $parameter = null){
+    $l = LoginController::checkToken($token);
+    if($l != false){
+      $to = explode(",", $to);
+      $DB = new Database();
+      $DB->insert("emailblock", "idUtente", "subject", "message", "header", "parameter")
+        ->value(1, $subject, $message, $header, $parameter)
         ->execute();
+      $id = $DB->select("MAX(id) AS id")
+        ->from("emailblock")
+        ->execute();
+      $id = intval($id[0]['id']);
+      foreach($to as $t){
+        error_reporting(0);
+        $s = mail($t, $subject, $message, $header, $parameter);
+        error_reporting(E_ALL);
+        $DB->insert("email", "idEmailBlock", "reciver", "invio", "status")
+          ->value($id, $t, ($s ? date("Y-m-d H:i:s") : null), ($s ? "Success" : error_get_last()['message']))
+          ->execute();
+      }
     }
   }
 
