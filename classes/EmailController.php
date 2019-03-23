@@ -75,11 +75,15 @@ class EmailController{
     return $ret;
   }
   private static function prepareHeader($header){
-    if(!is_array($header)){
+    if(!is_array($header) && strlen($header) > 0){
       $header = explode("\r\n", $header);
     }
     $header['Content-type'] = "text/html; charset=iso-8859-1";
-    return implode("\r\n", $header);
+    $h = [];
+    foreach ($header as $k => $v) {
+      $h[] = $k.":".$v;
+    }
+    return implode("\r\n", $h);
   }
   private static function isHTML($string){
     return $string != strip_tags($string);
