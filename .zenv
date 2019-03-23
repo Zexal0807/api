@@ -1,4 +1,5 @@
 APP_NAME:
+APP_DOMAIN:www.roujutsu.altervista.org
 DB_HOST:localhost
 DB_USER:root
 DB_PASSWORD:
