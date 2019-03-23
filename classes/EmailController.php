@@ -15,8 +15,9 @@ class EmailController{
       $id = intval($id[0]['id']);
       $header = EmailController::prepareHeader($header);
       foreach($to as $t){
+        $m = EmailController::prepareMessage($message, $id, $t);
         error_reporting(0);
-        $s = mail($t, $subject, $message, $header, $parameter);
+        $s = mail($t, $subject, $m, $header, $parameter);
         error_reporting(E_ALL);
         $DB->insert("email", "idEmailBlock", "reciver", "invio", "status")
           ->value($id, $t, ($s ? date("Y-m-d H:i:s") : null), ($s ? "Success" : error_get_last()['message']))
@@ -24,14 +25,12 @@ class EmailController{
       }
     }
   }
-
   private static function prepareTo($to){
     if(!is_array($to)){
       $to = explode(",", $to);
     }
     return $to;
   }
-
   private static function createToken($block, $reciver){
     $char = [
 			"q", "r", "h", "a", "t", "8", "g", "m", "f",
@@ -74,6 +73,15 @@ class EmailController{
     $ret = str_replace(["zpuntoz", "zugualez", "zecomz", "zchiocz"], [".", "=", "&", "@"], $ret);
     return $ret;
   }
+  private static function prepareMessage($message, $block, $reciver){
+    if(!EmailController::isHTML($message)){
+      $message = '<html><head></head><body>'.$message;
+      $message .= '</body></html>';
+    }
+    preg_match("/[a-zA-Z0-9_\-.+]+@[a-zA-Z0-9\-]+.[a-zA-Z]+/", $reciver, $email);
+    $message = str_replace("</body>", '<img src="'.ZConfig::config("APP_DOMAIN")."/email/recive/".EmailController::createToken($block, $email[0]).'" /></body>', $message);
+    return $message;
+  }
   private static function prepareHeader($header){
     if(!is_array($header) && strlen($header) > 0){
       $header = explode("\r\n", $header);
@@ -88,7 +96,6 @@ class EmailController{
   private static function isHTML($string){
     return $string != strip_tags($string);
   }
-
   public static function getBlockStatus($token, $id){
     $return = [];
     $l = LoginController::checkToken($token);
@@ -100,7 +107,6 @@ class EmailController{
     }
     return $return;
   }
-
   public static function getEmailStatus($token, $id){
     $return = [];
     $l = LoginController::checkToken($token);
@@ -109,7 +115,6 @@ class EmailController{
     }
     return $return;
   }
-
   private static function getEmail($id){
     $DB = new Database();
     $ret = $DB->select("*")
