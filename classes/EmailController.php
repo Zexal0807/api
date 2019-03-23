@@ -31,6 +31,30 @@ class EmailController{
     }
     return $to;
   }
+
+  private static function createToken($block, $reciver){
+    $char = [
+			"q", "r", "h", "a", "t", "8", "g", "m", "f",
+      "n", "o", "y", "k", "5", "2", "3", "e", "v",
+      "w", "d", "7", "0", "4", "1", "u", "6", "i",
+      "l", "p", "c", "j", "x", "z", "s", "9", "b"
+		];
+    $t = "block=".$block."&reciver=".strtolower($reciver);
+    $t = str_replace([".", "=", "&", "@"], ["zpuntoz", "zugualez", "zecomz", "zchiocz"], $t);
+    $c = intval(substr(date("U"), -1));
+    if($c == 0){
+      $c = 1;
+    }
+    $ret = "";
+    for($i = 0; $i < strlen($t); $i++){
+      $f = array_search(substr($t, $i, 1), $char) + $c;
+      if($f > 35){
+        $f = $f - 36;
+      }
+      $ret .= $char[$f];
+    }
+    return $c.$ret;
+  }
   private static function prepareHeader($header){
     if(!is_array($header)){
       $header = explode("\r\n", $header);
