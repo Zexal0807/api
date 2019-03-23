@@ -55,6 +55,25 @@ class EmailController{
     }
     return $c.$ret;
   }
+  private static function destroyToken($token){
+    $char = [
+      "q", "r", "h", "a", "t", "8", "g", "m", "f",
+      "n", "o", "y", "k", "5", "2", "3", "e", "v",
+      "w", "d", "7", "0", "4", "1", "u", "6", "i",
+      "l", "p", "c", "j", "x", "z", "s", "9", "b"
+    ];
+    $c = intval(substr($token, 0, 1));
+    $ret = "";
+    for($i = 1; $i < strlen($token); $i++){
+      $f = array_search(substr($token, $i, 1), $char) - $c;
+      if($f < 0){
+        $f = $f + 36;
+      }
+      $ret .= $char[$f];
+    }
+    $ret = str_replace(["zpuntoz", "zugualez", "zecomz", "zchiocz"], [".", "=", "&", "@"], $ret);
+    return $ret;
+  }
   private static function prepareHeader($header){
     if(!is_array($header)){
       $header = explode("\r\n", $header);
