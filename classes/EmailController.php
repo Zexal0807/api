@@ -55,7 +55,7 @@ class EmailController{
     }
     return $c.$ret;
   }
-  private static function destroyToken($token){
+  public static function destroyToken($token){
     $char = [
       "q", "r", "h", "a", "t", "8", "g", "m", "f",
       "n", "o", "y", "k", "5", "2", "3", "e", "v",
