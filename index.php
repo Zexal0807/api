@@ -24,6 +24,11 @@ ZRoute::get("/email/<code>/email/<id>", function ($data){
   echo json_encode(EmailController::getEmailStatus($data['code'], $data['id']));
 });
 
+ZRoute::get("/email/recive/<code>", function ($data){
+  var_dump($data);
+  var_dump(EmailController::destroyToken($data['code']));
+});
+
 ZRoute::post("/send/<code>", function($data){
   //check the code
   EmailController::send(
