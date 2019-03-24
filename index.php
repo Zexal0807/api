@@ -29,8 +29,7 @@ ZRoute::get("/email/recive/<code>", function ($data){
   var_dump(EmailController::destroyToken($data['code']));
 });
 
-ZRoute::post("/send/<code>", function($data){
-  //check the code
+ZRoute::post("/email/send/<code>", function($data){
   EmailController::send(
     $data['code'],
     isset($data['to']) ? $data['to'] : "",
