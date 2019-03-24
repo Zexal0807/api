@@ -1,6 +1,6 @@
 <?php
 require_once 'Zexarel/loader.php';
-
+require_once 'classes/View.php';
 require_once 'classes/Database.php';
 
 require_once 'classes/EmailController.php';
@@ -11,7 +11,7 @@ ZRoute::get("/", function (){
 });
 
 ZRoute::get("/home", function (){
-  echo "Questa è la route della homepage";
+  echo View::get("home");
 }, "home");
 
 ZRoute::get("/email/<code>/block/<id>", function ($data){
