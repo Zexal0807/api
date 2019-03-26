@@ -25,8 +25,15 @@ ZRoute::get("/email/<code>/email/<id>", function ($data){
 });
 
 ZRoute::get("/email/recive/<code>", function ($data){
-  var_dump($data);
-  var_dump(EmailController::destroyToken($data['code']));
+  $s = EmailController::destroyToken($data['code']);
+  $s = explode("&", $s);
+  $r = [];
+  foreach($s as $ss){
+    $a = explode("=", $ss);
+    $r[$a[0]] = $a[1];
+  }
+
+
 });
 
 ZRoute::post("/email/send/<code>", function($data){
