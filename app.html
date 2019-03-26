@@ -2,38 +2,32 @@
 	<head>
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	</head>
 	<body>
-		<nav class="navbar navbar-light bg-light">
-			<a class="navbar-brand">
-				<img src="image/zaravel.svg" width="30" height="30" class="d-inline-block align-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand">
+				<img src="image/zexarel.svg" width="30" height="30" class="d-inline-block align-top">
 				Zexarel
 			</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-          </li>
-        </ul>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="{{ ZRoute::getUri('home') }}">Home</a>
+          <a class="nav-item nav-link" href="{{ ZRoute::getUri('chi') }}">Chi sono</a>
+          <a class="nav-item nav-link" href="{{ ZRoute::getUri('zexarel') }}">Zexarel</a>
+          <a class="nav-item nav-link" href="{{ ZRoute::getUri('api') }}">API & Servizi</a>
+        </div>
       </div>
-		</nav>
+    </nav>
+
 
 	</body>
 <html>
