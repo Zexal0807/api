@@ -124,4 +124,14 @@ class EmailController{
     return isset($ret[0]) ? $ret[0] : [];
   }
 
+  public static function recive($block, $to){
+    $DB = new Database();
+    $DB->update("email")
+      ->set("ricezione", date("Y-m-d H:i:s"))
+      ->where("idEmailBlock", "=", $block)
+      ->where("reciver", "LIKE", "%".$to."%")
+      ->where("invio", "IS NOT NULL", "")
+      ->execute();
+  }
+
 }
